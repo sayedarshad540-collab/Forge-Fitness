@@ -1,6 +1,6 @@
 
-import { DBState, User, Payment, Attendance, MembershipType } from './types';
-import { ADMIN_CREDENTIALS } from './constants';
+import { DBState, User, Payment, Attendance, MembershipType } from './types.ts';
+import { ADMIN_CREDENTIALS } from './constants.tsx';
 
 const DB_KEY = 'forge_gym_db';
 

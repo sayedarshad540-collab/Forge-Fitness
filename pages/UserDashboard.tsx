@@ -1,24 +1,24 @@
 
-import React, { useState, useEffect } from 'react';
-import { User, Payment, Attendance, MembershipType } from '../types';
-import { getDB, addPayment, logAttendance } from '../store';
-import { MEMBERSHIP_PLANS } from '../constants';
-import { Calendar, CreditCard, Activity, Trophy, Sparkles, AlertCircle, ArrowUpRight, CheckCircle2, Loader2 } from 'lucide-react';
-import { getWorkoutSuggestions } from '../geminiService';
+import React, { useState } from 'react';
+import { User, DBState, MembershipType } from '../types.ts';
+import { addPayment, logAttendance } from '../store.ts';
+import { MEMBERSHIP_PLANS } from '../constants.tsx';
+import { Calendar, CreditCard, Activity, Trophy, Sparkles, AlertCircle, ArrowUpRight, Loader2 } from 'lucide-react';
+import { getWorkoutSuggestions } from '../geminiService.ts';
 
 interface UserDashboardProps {
   user: User;
+  db: DBState;
   onUpdate: () => void;
 }
 
-const UserDashboard: React.FC<UserDashboardProps> = ({ user, onUpdate }) => {
-  const [db, setDb] = useState(getDB());
+const UserDashboard: React.FC<UserDashboardProps> = ({ user, db, onUpdate }) => {
   const [aiWorkout, setAiWorkout] = useState<string | null>(null);
   const [loadingAI, setLoadingAI] = useState(false);
   const [showPayModal, setShowPayModal] = useState(false);
   const [isSubmittingPayment, setIsSubmittingPayment] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<MembershipType | null>(null);
 
+  // Derive data directly from props to ensure UI is always in sync with App state
   const userPayments = db.payments.filter(p => p.userId === user.id).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   const userAttendance = db.attendance.filter(a => a.userId === user.id).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   
@@ -27,7 +27,6 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ user, onUpdate }) => {
   const handleCheckIn = () => {
     logAttendance(user.id);
     onUpdate();
-    setDb(getDB());
   };
 
   const handlePayment = async (planName: MembershipType) => {
@@ -64,7 +63,6 @@ const UserDashboard: React.FC<UserDashboardProps> = ({ user, onUpdate }) => {
 
       setShowPayModal(false);
       onUpdate();
-      setDb(getDB());
     } catch (error) {
       console.error("Payment submission failed:", error);
       alert("There was an issue processing your request. Please try again.");

@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { HashRouter, Routes, Route, Navigate, Link, useNavigate } from 'react-router-dom';
-import { DBState, User } from './types';
-import { getDB, saveDB } from './store';
-import Home from './pages/Home';
-import Auth from './pages/Auth';
-import UserDashboard from './pages/UserDashboard';
-import AdminDashboard from './pages/AdminDashboard';
+import { HashRouter, Routes, Route, Navigate, Link } from 'react-router-dom';
+import { DBState, User } from './types.ts';
+import { getDB, saveDB } from './store.ts';
+import Home from './pages/Home.tsx';
+import Auth from './pages/Auth.tsx';
+import UserDashboard from './pages/UserDashboard.tsx';
+import AdminDashboard from './pages/AdminDashboard.tsx';
 import { Dumbbell, LogOut, User as UserIcon, Shield } from 'lucide-react';
 
 const App: React.FC = () => {
@@ -25,7 +25,7 @@ const App: React.FC = () => {
     state.currentUser = user;
     saveDB(state);
     setCurrentUser(user);
-    setDb(state);
+    setDb({ ...state });
   };
 
   const handleLogout = () => {
@@ -33,11 +33,11 @@ const App: React.FC = () => {
     state.currentUser = null;
     saveDB(state);
     setCurrentUser(null);
-    setDb(state);
+    setDb({ ...state });
   };
 
   const refreshDB = () => {
-    setDb(getDB());
+    setDb({ ...getDB() });
   };
 
   return (
@@ -94,7 +94,7 @@ const App: React.FC = () => {
               path="/dashboard" 
               element={
                 currentUser && currentUser.role === 'customer' 
-                ? <UserDashboard user={currentUser} onUpdate={refreshDB} /> 
+                ? <UserDashboard user={currentUser} db={db} onUpdate={refreshDB} /> 
                 : <Navigate to="/login" />
               } 
             />

@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, User as UserIcon, ArrowRight, ShieldCheck, Dumbbell } from 'lucide-react';
-import { getDB, addUser } from '../store';
-import { User, MembershipType } from '../types';
-import { ADMIN_CREDENTIALS } from '../constants';
+import { getDB, addUser } from '../store.ts';
+import { User, MembershipType } from '../types.ts';
+import { ADMIN_CREDENTIALS } from '../constants.tsx';
 
 interface AuthProps {
   mode: 'login' | 'register';
