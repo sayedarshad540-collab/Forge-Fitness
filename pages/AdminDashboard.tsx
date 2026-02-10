@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
-import { DBState, User, Payment, Attendance } from '../types';
-import { Users, CreditCard, BarChart3, Search, Calendar, CheckCircle2, MoreVertical, LayoutDashboard, Settings, UserPlus, Filter } from 'lucide-react';
+import { DBState, User, Payment, Attendance } from '../types.ts';
+import { Users, CreditCard, BarChart3, Search, CheckCircle2, MoreVertical, LayoutDashboard, Settings } from 'lucide-react';
 
 interface AdminDashboardProps {
   db: DBState;

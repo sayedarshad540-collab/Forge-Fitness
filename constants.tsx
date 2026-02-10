@@ -1,5 +1,5 @@
 
-import { MembershipType, MembershipPlan } from './types';
+import { MembershipType, MembershipPlan } from './types.ts';
 
 export const MEMBERSHIP_PLANS: MembershipPlan[] = [
   {
